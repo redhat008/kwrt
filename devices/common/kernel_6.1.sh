@@ -33,11 +33,9 @@ mkdir package/kernel/mt76/patches
 curl -sfL https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/kernel/mt76/patches/0001-mt76-allow-VHT-rate-on-2.4GHz.patch -o package/kernel/mt76/patches/0001-mt76-allow-VHT-rate-on-2.4GHz.patch
 
 cd feeds/packages
-rm -rf kernel libs/libpfring libs/xr_usb_serial_common
-git_clone_path master https://github.com/openwrt/packages kernel libs/libpfring libs/xr_usb_serial_common
+rm -rf kernel libs/libpfring libs/xr_usb_serial_common net/xtables-addons
+git_clone_path master https://github.com/openwrt/packages kernel libs/libpfring libs/xr_usb_serial_common net/xtables-addons
 cd ../../
-
-curl -sfL https://raw.githubusercontent.com/openwrt/packages/e182b15eb7e6ccb0d9ae05dbe01ea6e8fc1d57b7/net/xtables-addons/patches/201-fix-lua-packetscript.patch -o package/feeds/packages/xtables-addons/patches/201-fix-lua-packetscript.patch
 
 curl -sfL https://raw.githubusercontent.com/openwrt/packages/master/net/coova-chilli/patches/011-kernel517.patch -o package/feeds/packages/coova-chilli/patches/011-kernel517.patch
 
