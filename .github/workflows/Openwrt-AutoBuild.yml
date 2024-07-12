@@ -164,6 +164,7 @@ jobs:
           trap 'rm -rf "$tmpdir"' EXIT
           branch="$1" rurl="$2" mv="$3"
           [[ "$mv" != "mv" ]] && shift 2 || shift 3
+          rootdir="$PWD"
           tmpdir="$(mktemp -d)" || exit 1
           git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $tmpdir
           if [ "$?" != 0 ]; then
@@ -173,8 +174,8 @@ jobs:
           cd $tmpdir
           git sparse-checkout init --cone
           git sparse-checkout set $@
-          [[ "$mv" != "mv" ]] && cp -rn ./* ../ || mv -n $@/* ../$@/
-          cd ..
+          [[ "$mv" != "mv" ]] && cp -rn ./* $rootdir/ || mv -n $@/* $rootdir/$@/
+          cd $rootdir
           }
         export -f git_clone_path
         cp -rf devices/common/. openwrt/
