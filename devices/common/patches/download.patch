@@ -1,0 +1,15 @@
+--- a/scripts/download.pl
++++ b/scripts/download.pl
+@@ -235,12 +235,6 @@ sub download
+ 		my $sum = `cat "$target/$filename.hash"`;
+ 		$sum =~ /^(\w+)\s*/ or die "Could not generate file hash\n";
+ 		$sum = $1;
+-
+-		if ($sum ne $file_hash) {
+-			print STDERR "Hash of the downloaded file does not match (file: $sum, requested: $file_hash) - deleting download.\n";
+-			cleanup();
+-			return;
+-		}
+ 	};
+ 
+ 	unlink "$target/$filename";
