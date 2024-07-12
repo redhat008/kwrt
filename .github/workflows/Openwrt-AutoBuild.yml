@@ -166,6 +166,10 @@ jobs:
           [[ "$mv" != "mv" ]] && shift 2 || shift 3
           tmpdir="$(mktemp -d)" || exit 1
           git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $tmpdir
+          if [ "$?" != 0 ]; then
+            echo "error on $rurl"
+            exit 1
+          fi
           cd $tmpdir
           git sparse-checkout init --cone
           git sparse-checkout set $@
