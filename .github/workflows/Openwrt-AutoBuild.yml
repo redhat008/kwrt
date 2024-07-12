@@ -161,19 +161,16 @@ jobs:
     - name: Load custom configuration
       run: |
         function git_clone_path() {
-          branch="$1" rurl="$2" localdir="gitemp" mv="$3"
+          trap 'rm -rf "$tmpdir"' EXIT
+          branch="$1" rurl="$2" mv="$3"
           [[ "$mv" != "mv" ]] && shift 2 || shift 3
-          git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $localdir
-          if [ "$?" != 0 ]; then
-            echo "error on $rurl"
-            return 0
-          fi
-          cd $localdir
+          tmpdir="$(mktemp -d)" || exit 1
+          git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $tmpdir
+          cd $tmpdir
           git sparse-checkout init --cone
           git sparse-checkout set $@
           [[ "$mv" != "mv" ]] && cp -rn ./* ../ || mv -n $@/* ../$@/
           cd ..
-          rm -rf gitemp
           }
         export -f git_clone_path
         cp -rf devices/common/. openwrt/
