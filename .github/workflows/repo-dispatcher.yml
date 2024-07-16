@@ -67,8 +67,8 @@ jobs:
     - name: Trigger Compile
       run: |
         sudo timedatectl set-timezone "$TZ"
-          curl \
+        curl \
           -X POST https://api.github.com/repos/${{ github.repository }}/dispatches \
           -H "Accept: application/vnd.github.everest-preview+json" \
           -H "Authorization: token ${{ secrets.TOKEN_KIDDIN9 }}" \
-          -d '{"event_type": "${{ github.event.inputs.target }} ${{ github.event.inputs.param }}", "client_payload": {"target": ${{ github.event.inputs.target }}}}'
+          -d '{"event_type": "${{ github.event.inputs.target }} ${{ github.event.inputs.param }}", "client_payload": {"target": "${{ github.event.inputs.target }}" }}'
